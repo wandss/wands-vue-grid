@@ -11,9 +11,9 @@
         data(){
             return{
                 gridData:[
-                {ID:'183', User:'John Doe',
+                {ID:183, User:'John Doe',
                     Date:'11-07-2014',Status:'Aproved'},
-                {ID:'219', User:'Alexander Pierce',
+                {ID:219, User:'Alexander Pierce',
                     Date:'11-07-2014',Status:'Pending'},
                 ]
             }
