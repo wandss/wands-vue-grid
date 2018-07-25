@@ -1,28 +1,25 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <Grid :gridData="gridData"/>
   </div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
+    import Grid from './components/Grid';
+    export default{
+        name:'APP',
+        components:{Grid, },
+        data(){
+            return{
+                gridData:[
+                {ID:'183', User:'John Doe',
+                    Date:'11-07-2014',Status:'Aproved'},
+                {ID:'219', User:'Alexander Pierce',
+                    Date:'11-07-2014',Status:'Pending'},
+                ]
+            }
+    }
 }
 </script>
-
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+    @import './assets/css/bootstrap.min.css';
 </style>
