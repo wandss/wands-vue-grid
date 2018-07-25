@@ -1,7 +1,8 @@
 <template>
     <thead>
         <tr>
-            <th v-for="item in getHeader" :key="item">
+            <th v-for="item in getHeader" :key="item"
+             @click="$emit('click', item)">
                 {{item}}
             </th>
         </tr>
@@ -19,8 +20,8 @@
         },
         computed:{
             getHeader(){
-                return Object.keys(this.gridData[0])
-            }
+                return Object.keys(this.gridData[0]);
+            },
         },
   }
 </script>
