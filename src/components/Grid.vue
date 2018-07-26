@@ -3,7 +3,7 @@
       <table class="table table-bordered table-striped">
           <GridHeader :gridData="grid" @click="sortBy" />
           <GridRows :gridData="grid" @click="getRow"/>
-      </table>    
+      </table>
   </div>
 </template>
 <script>
@@ -24,22 +24,36 @@
             // eslint-disable-next-line
                 console.log(item)
             // eslint-disable-next-line
-                console.log(item.ID)
+                console.log(item.id)
             },
             sortBy(col){
             // eslint-disable-next-line
                 const newGrid = this.grid.slice();
 
-                newGrid.reverse((a,b)=>{
-                    if(a[col] > b[col]){
-                        return 1
-                    }
-                    if(a[col] < b[col]){
-                        return -1
-                    }
-                    else{return 0}
-                })
+                if(col === this.sortedBy){
+                    newGrid.reverse((a,b)=>{
+                        if(a[col] > b[col]){
+                            return 1
+                        }
+                        if(a[col] < b[col]){
+                            return -1
+                        }
+                        else{return 0}
+                    })
+                }
+                else{
+                    newGrid.sort((a,b)=>{
+                        if(a[col] > b[col]){
+                            return 1
+                        }
+                        if(a[col] < b[col]){
+                            return -1
+                        }
+                        else{return 0}
+                    })
+                }
                 this.grid = newGrid;
+                this.sortedBy = col;
             }
         }
   }

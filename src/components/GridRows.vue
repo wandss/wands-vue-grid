@@ -1,6 +1,6 @@
 <template>
     <tbody>
-        <tr id="row" v-for="(data, index) in gridData" :key="index"> 
+        <tr id="row" v-for="(data, index) in gridData" :key="index">
             <td v-for="item in data" :key="item" @click="$emit('click', data)">
                 {{item}}
             </td>
