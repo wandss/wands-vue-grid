@@ -1,8 +1,8 @@
 <template>
   <div>
       <table class="table table-bordered table-striped">
-          <GridHeader :gridData="grid" @click="sortBy" />
-          <GridRows :gridData="grid" @click="getRow"/>
+          <GridHeader :gridData="getGrid" @click="sortBy" />
+          <GridRows :gridData="getGrid" @click="getRow" @getAction="getAction"/>
       </table>
   </div>
 </template>
@@ -11,17 +11,27 @@
     import GridRows from './GridRows';
     export default{
         name:'Grid',
-        props:['gridData','hasActionButtons'],
+        props:['gridData','hasActionButtons','confirmDelete'],
         components:{GridHeader, GridRows },
         data(){
             return {
-                grid:this.gridData,
                 sortedBy:'',
+                chosenItem:undefined,
             }
         },
         created(){
-            if(this.hasActionButtons){
-                this.grid.forEach((item)=>item['Action']='actionButtons')
+        },
+        computed:{
+            getGrid(){
+                const grid = this.gridData.slice()
+                if(this.hasActionButtons){
+                    grid.forEach((item)=>item['Action']='actionButtons')
+                }
+                if(this.confirmDelete){
+                    console.log('Remove item and update Grid')
+
+                }
+                return this.grid = grid
             }
         },
         methods:{
@@ -30,6 +40,12 @@
                 console.log(item)
             // eslint-disable-next-line
                 console.log(item.id)
+                this.chosenItem=item;
+            },
+            getAction(item, action){
+                if(action === 'deletebtn'){
+                    this.$emit('deleteItem',item)
+                }
             },
             sortBy(col){
             // eslint-disable-next-line
