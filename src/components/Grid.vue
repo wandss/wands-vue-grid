@@ -11,12 +11,17 @@
     import GridRows from './GridRows';
     export default{
         name:'Grid',
-        props:['gridData'],
+        props:['gridData','hasActionButtons'],
         components:{GridHeader, GridRows },
         data(){
             return {
                 grid:this.gridData,
                 sortedBy:'',
+            }
+        },
+        created(){
+            if(this.hasActionButtons){
+                this.grid.forEach((item)=>item['Action']='actionButtons')
             }
         },
         methods:{
