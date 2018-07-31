@@ -1,7 +1,7 @@
 <template>
     <thead>
         <tr>
-            <th v-for="item in getHeader" :key="item"
+            <th v-for="(item, index) in getHeader" :key="index"
              @click="$emit('click', item)">
                 {{item}}
             </th>
@@ -24,5 +24,8 @@
         },
   }
 </script>
-<style>
+<style scoped>
+tr{
+    cursor:pointer;
+}
 </style>

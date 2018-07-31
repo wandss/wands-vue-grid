@@ -1,8 +1,10 @@
 <template>
   <div>
       <table class="table table-bordered table-striped">
-          <GridHeader :gridData="getGrid" @click="sortBy" />
-          <GridRows :gridData="getGrid" @click="getRow" @getAction="getAction"/>
+          <GridHeader :gridData="grid" @click="sortBy" />
+          <GridRows v-for="(data, index) in grid " :key="index" 
+           :rowData="data" @removeItem="removeItem(data)"
+           @click="$emit('click', data)"/>
       </table>
   </div>
 </template>
@@ -11,48 +13,37 @@
     import GridRows from './GridRows';
     export default{
         name:'Grid',
-        props:['gridData','hasActionButtons','confirmDelete'],
+        props:['gridData','hasActionButtons',],
         components:{GridHeader, GridRows },
         data(){
             return {
                 sortedBy:'',
-                chosenItem:undefined,
             }
         },
-        created(){
-        },
         computed:{
-            getGrid(){
-                const grid = this.gridData.slice()
-                if(this.hasActionButtons){
-                    grid.forEach((item)=>item['Action']='actionButtons')
+            grid:{
+                get(){
+                    const grid = this.gridData;
+                    if(this.hasActionButtons){
+                        grid.forEach((item)=>item['Ações'] = 'actionButtons');
+                    }
+                    return grid
+                },
+                set(newGrid){
+                    this.grid = newGrid;
                 }
-                if(this.confirmDelete){
-                    console.log('Remove item and update Grid')
-
-                }
-                return this.grid = grid
             }
         },
         methods:{
-            getRow(item){
-            // eslint-disable-next-line
-                console.log(item)
-            // eslint-disable-next-line
-                console.log(item.id)
-                this.chosenItem=item;
-            },
-            getAction(item, action){
-                if(action === 'deletebtn'){
-                    this.$emit('deleteItem',item)
-                }
+            removeItem(row){
+                const index = this.grid.map((item)=>item.id).indexOf(row.id);
+                this.grid.splice(index, 1);
             },
             sortBy(col){
             // eslint-disable-next-line
                 const newGrid = this.grid.slice();
-
                 if(col === this.sortedBy){
-                    newGrid.reverse((a,b)=>{
+                    this.grid.reverse((a,b)=>{
                         if(a[col] > b[col]){
                             return 1
                         }
@@ -63,7 +54,7 @@
                     })
                 }
                 else{
-                    newGrid.sort((a,b)=>{
+                    this.grid.sort((a,b)=>{
                         if(a[col] > b[col]){
                             return 1
                         }
@@ -73,7 +64,6 @@
                         else{return 0}
                     })
                 }
-                this.grid = newGrid;
                 this.sortedBy = col;
             }
         }
