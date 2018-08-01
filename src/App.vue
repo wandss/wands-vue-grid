@@ -1,7 +1,7 @@
 <template>
   <div class="row">
       <div class="col-sm-12">
-        <Grid :gridData="gridData" :hasActionButtons="true"
+        <Grid v-if="gridData.length>0" :gridData="gridData" :hasActionButtons="true"
          @deleteItem="getItem" :confirmDelete="confirmDelete"/>
       </div>  
   </div>
@@ -28,10 +28,8 @@
         },
         methods:{
             getItem(item){
-                console.log('YAYAYAYAYA')
                 const index = this.gridData.map((item=>
                     item.id)).indexOf(item.id)
-                console.log(index)
                 this.confirmDelete=!this.deleteItem 
             }
         },

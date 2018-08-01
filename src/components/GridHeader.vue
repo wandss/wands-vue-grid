@@ -3,7 +3,9 @@
         <tr>
             <th v-for="(item, index) in getHeader" :key="index"
              @click="$emit('click', item)">
+                <span class="fa fa-sort">
                 {{item}}
+                </span>
             </th>
         </tr>
         </thead>
