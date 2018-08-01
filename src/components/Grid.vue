@@ -21,18 +21,13 @@
             }
         },
         computed:{
-            grid:{
-                get(){
-                    const grid = this.gridData;
-                    if(this.hasActionButtons){
-                        grid.forEach((item)=>item['Ações'] = 'actionButtons');
-                    }
-                    return grid
-                },
-                set(newGrid){
-                    this.grid = newGrid;
+            grid(){
+                const grid = this.gridData;
+                if(this.hasActionButtons){
+                    grid.forEach((item)=>item['Ações'] = 'actionButtons');
                 }
-            }
+                return grid
+            },
         },
         methods:{
             removeItem(row){
@@ -40,8 +35,6 @@
                 this.grid.splice(index, 1);
             },
             sortBy(col){
-            // eslint-disable-next-line
-                const newGrid = this.grid.slice();
                 if(col === this.sortedBy){
                     this.grid.reverse((a,b)=>{
                         if(a[col] > b[col]){

@@ -1,8 +1,7 @@
 <template>
   <div class="row">
       <div class="col-sm-12">
-        <Grid v-if="gridData.length>0" :gridData="gridData" :hasActionButtons="true"
-         @deleteItem="getItem" :confirmDelete="confirmDelete"/>
+          <Grid :gridData="gridData" :hasActionButtons="true" />
       </div>  
   </div>
 </template>
@@ -13,14 +12,6 @@
         components:{Grid, },
         data(){
             return{
-<<<<<<< HEAD
-                gridData:[
-                {ID:183, User:'John Doe',
-                    Date:'11-07-2014',Status:'Aproved'},
-                {ID:219, User:'Alexander Pierce',
-                    Date:'11-07-2014',Status:'Pending'},
-                ]
-=======
                 gridData:[{id:1, movie:"Monty Python and the Holy Grail", year:1975, 
                         genre:'Comedy'},
                     {id:2, movie:"Pulp Fiction", year:1994, 
@@ -30,21 +21,9 @@
                     {id:4, movie:"Requiem For a Dream", year:1999, 
                         genre:'Drama'},
                     ],
-                selectedItem:undefined,
                 confirmDelete:false,
->>>>>>> refactor
             }
         },
-        methods:{
-            getItem(item){
-                const index = this.gridData.map((item=>
-                    item.id)).indexOf(item.id)
-                this.confirmDelete=!this.deleteItem 
-            }
-        },
-        computed:{
-
-        }
     }
 </script>
 <style>
