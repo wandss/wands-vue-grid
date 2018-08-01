@@ -13,7 +13,7 @@
                     />
                 </div>
                 <div v-else>
-                    {{item}}
+                    {{formatItem(item)}}
                 </div>    
             </td>
         </tr>
@@ -26,6 +26,18 @@
         components:{GridIcon,},
         name:'GridRows',
         props:['rowData',],
+        methods:{
+            formatItem(item){
+                var newItem = item;
+                if(Array.isArray(item)){
+                    newItem = newItem.join(', ');
+                }
+                if(!isNaN(newItem)){
+                    newItem = Number(newItem).toLocaleString()
+                }
+                return newItem;
+            }
+        }
     }
 </script>
 <style scoped>

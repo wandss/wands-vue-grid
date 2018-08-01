@@ -33,8 +33,6 @@
 
 <!--TODO:
     Improve "sortBy" method. Try to use it in computed??
-    Join object values defined as array: ['Crime', 'Drama'] to "Crima, Drama"
     Add input to Filter array
     Try to format date as a javascript Date object.
-    Treat key error at GridRows
 -->
