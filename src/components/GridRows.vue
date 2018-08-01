@@ -1,20 +1,35 @@
 <template>
     <tbody>
-        <tr id="row" v-for="(data, index) in gridData" :key="index"> 
-            <td v-for="item in data" :key="item" @click="$emit('click', data)">
-                {{item}}
+        <tr>
+            <td v-for="(item, key) in rowData " :key="key"
+                @click="$emit('click')">
+                <div v-if="item === 'actionButtons'">
+                    <GridIcon icon="fa fa-edit" title="Editar" 
+                    />
+                    <GridIcon icon="fa fa-th-list" title="Detalhar" 
+                    />
+                    <GridIcon icon="fa fa-trash" title="Apagar" 
+                     @click="$emit('removeItem')"
+                    />
+                </div>
+                <div v-else>
+                    {{item}}
+                </div>    
             </td>
         </tr>
     </tbody>
 </template>
 <script>
+    import GridIcon from './GridIcon';
+
     export default{
+        components:{GridIcon,},
         name:'GridRows',
-        props:['gridData'],
+        props:['rowData',],
     }
 </script>
-<style>
-#row{
+<style scoped>
+tr{
     cursor:pointer;
 }
 </style>

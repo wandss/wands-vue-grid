@@ -1,8 +1,11 @@
 <template>
     <thead>
         <tr>
-            <th v-for="item in getHeader" :key="item">
+            <th v-for="(item, index) in getHeader" :key="index"
+             @click="$emit('click', item)">
+                <span class="fa fa-sort">
                 {{item}}
+                </span>
             </th>
         </tr>
         </thead>
@@ -14,15 +17,17 @@
         data(){
             return{
                 headerData:undefined,
-
             }
         },
         computed:{
             getHeader(){
-                return Object.keys(this.gridData[0])
-            }
+                return Object.keys(this.gridData[0]);
+            },
         },
   }
 </script>
-<style>
+<style scoped>
+tr{
+    cursor:pointer;
+}
 </style>
