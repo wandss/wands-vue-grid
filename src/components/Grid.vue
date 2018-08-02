@@ -1,7 +1,8 @@
 <template>
   <div>
       <table class="table table-bordered table-striped">
-          <GridHeader :gridData="grid" @click="sortBy" />
+          <GridHeader :gridData="grid" @sort="sortBy"
+           @hideColumn="hideColumn"/>
           <GridRows v-for="(data, index) in grid " :key="index" 
            :rowData="data" @removeItem="removeItem(data)"
            @click="$emit('click', data)"/>
@@ -30,6 +31,10 @@
             },
         },
         methods:{
+            hideColumn(item){
+                console.log('Hiding column '+item)
+            },
+
             removeItem(row){
                 const index = this.grid.map((item)=>item.id).indexOf(row.id);
                 this.grid.splice(index, 1);
