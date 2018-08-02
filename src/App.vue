@@ -1,8 +1,8 @@
 <template>
   <div class="row">
       <div class="col-sm-12">
-          <Grid :gridData="gridData" :hasActionButtons="true" />
-      </div>  
+          <Grid v-if="gridData.length>0" :gridData="gridData" :hasActionButtons="true" />
+      </div>
   </div>
 </template>
 <script>
@@ -12,13 +12,13 @@
         components:{Grid, },
         data(){
             return{
-                gridData:[{id:1, movie:"Monty Python and the Holy Grail", year:1975, 
+                gridData:[{id:1, movie:"Monty Python and the Holy Grail", year:1975,
                         genre:'Comedy'},
-                    {id:2, movie:"Pulp Fiction", year:1994, 
+                    {id:2, movie:"Pulp Fiction", year:1994,
                         genre:['Drama', 'Crime']},
                     {id:3, movie:"The Green Mile", year:1999,
                         genre:['Crime','Drama','Fantasy','Mistery']},
-                    {id:4, movie:"Requiem For a Dream", year:1999, 
+                    {id:4, movie:"Requiem For a Dream", year:1999,
                         genre:'Drama'},
                     ],
                 confirmDelete:false,

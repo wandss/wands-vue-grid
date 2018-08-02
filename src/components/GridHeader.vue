@@ -30,4 +30,7 @@
 tr{
     cursor:pointer;
 }
+th{
+    text-transform:capitalize;
+}
 </style>
