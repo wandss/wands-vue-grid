@@ -4,17 +4,17 @@
             <td v-for="(item, key) in rowData " :key="key"
                 @click="$emit('click')">
                 <div v-if="item === 'actionButtons'">
-                    <GridIcon icon="fa fa-edit" title="Editar" 
+                    <GridIcon icon="fa fa-edit" title="Editar"
                     />
-                    <GridIcon icon="fa fa-th-list" title="Detalhar" 
+                    <GridIcon icon="fa fa-th-list" title="Detalhar"
                     />
-                    <GridIcon icon="fa fa-trash" title="Apagar" 
+                    <GridIcon icon="fa fa-trash" title="Apagar"
                      @click="$emit('removeItem')"
                     />
                 </div>
                 <div v-else>
                     {{formatItem(item)}}
-                </div>    
+                </div>
             </td>
         </tr>
     </tbody>

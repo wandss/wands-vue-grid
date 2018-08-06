@@ -1,8 +1,8 @@
 <template>
   <div>
       <table class="table table-bordered table-striped">
-          <GridHeader :gridData="grid" @click="sortBy" />
-          <GridRows v-for="(data, index) in grid " :key="index" 
+          <GridHeader :gridData="grid" @sort="sortBy" />
+          <GridRows v-for="(data, index) in grid " :key="index"
            :rowData="data" @removeItem="removeItem(data)"
            @click="$emit('click', data)"/>
       </table>

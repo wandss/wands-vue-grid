@@ -2,10 +2,13 @@
     <thead>
         <tr>
             <th v-for="(item, index) in getHeader" :key="index"
-             @click="$emit('click', item)">
-                <span class="fa fa-sort">
+             @click="$emit('sort', item)">
+                <i class="fa fa-sort">
                 {{item}}
-                </span>
+                </i >
+                <div id="hidecol" @click="$emit('hideColumn', item)">
+                    <i class="fa fa-eye-slash"></i>
+                </div>
             </th>
         </tr>
         </thead>
@@ -32,5 +35,11 @@ tr{
 }
 th{
     text-transform:capitalize;
+}
+#hidecol{
+    float:right;
+}
+#hidecol:hover{
+    opacity:.8;
 }
 </style>
