@@ -12,6 +12,8 @@
 <script>
     import GridHeader from './GridHeader';
     import GridRows from './GridRows';
+    import Vue from 'vue';
+
     export default{
         name:'Grid',
         props:['gridData','hasActionButtons',],
@@ -19,6 +21,7 @@
         data(){
             return {
                 sortedBy:'',
+                hiddenColumns:[],
             }
         },
         computed:{
@@ -33,6 +36,19 @@
         methods:{
             hideColumn(item){
                 console.log('Hiding column '+item)
+                const columns = Object.keys(this.grid[0]).filter(colname=>
+                    colname!==item)
+                const newGrid = []
+                columns.map(col=>this.grid.slice().map(row=>
+                    newGrid.push({col:row[col]})))
+                
+                console.log(newGrid)
+                /*
+                this.grid.map(row=>
+                    Vue.delete(row, item)
+                )
+                console.log(this.grid)
+                */
             },
 
             removeItem(row){
