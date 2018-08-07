@@ -1,14 +1,12 @@
 <template>
+
   <div>
+      <GridIcon v-for="column in hiddenColumns" :key="column"
+          icon="fa fa-eye" :name="column" @click="showColumn(column)"/>
       <table class="table table-bordered table-striped">
-<<<<<<< HEAD
-          <GridHeader :gridData="grid" @sort="sortBy" />
-          <GridRows v-for="(data, index) in grid " :key="index"
-=======
           <GridHeader :gridData="grid" @sort="sortBy"
            @hideColumn="hideColumn"/>
-          <GridRows v-for="(data, index) in grid " :key="index" 
->>>>>>> 578b7147b0d04c9e1753cfcfa4bbdfa5be343b9d
+          <GridRows v-for="(data, index) in grid " :key="index"
            :rowData="data" @removeItem="removeItem(data)"
            @click="$emit('click', data)"/>
       </table>
@@ -27,33 +25,60 @@
             return {
                 sortedBy:'',
                 hiddenColumns:[],
+                removedCols:[],
+                grid:[],
+                originalGrid:[],
             }
         },
-        computed:{
-            grid(){
-                const grid = this.gridData;
-                if(this.hasActionButtons){
-                    grid.forEach((item)=>item['Ações'] = 'actionButtons');
-                }
-                return grid
-            },
+        created(){
+            const grid = this.gridData;
+            if(this.hasActionButtons){
+                grid.forEach((item)=>item['Ações'] = 'actionButtons');
+            }
+            this.grid = grid;
+            this.originalGrid = grid;
         },
         methods:{
-            hideColumn(item){
-                console.log('Hiding column '+item)
+            hideColumn(colName){
+                console.log('Hiding column '+colName)
                 const columns = Object.keys(this.grid[0]).filter(colname=>
-                    colname!==item)
-                const newGrid = []
-                columns.map(col=>this.grid.slice().map(row=>
-                    newGrid.push({col:row[col]})))
-                
-                console.log(newGrid)
-                /*
+                    colname!==colName)
+
+                const removedCols = this.grid.map(row=>row[colName]).map(item=>{
+                    return {[colName]:item}
+                });
+                this.removedCols.push(removedCols)
+                //Save the data from the removed col. Push this array
+                //to hiddenColumns
+
+                columns.map((col)=>this.grid.forEach((row, index)=>{
+                    //console.log({[col]:row[col]})
+
+                    if(Object.keys(row).indexOf(col)===index){
+                        console.log(row)
+                    }
+
+                    // if index === indexOf return the row
+                }
+                ));
+
+
                 this.grid.map(row=>
-                    Vue.delete(row, item)
+                    Vue.delete(row, colName)
                 )
-                console.log(this.grid)
-                */
+                this.hiddenColumns.push(colName);
+            },
+            showColumn(column){
+                console.log(column)
+                console.log(this.removedCols)
+                console.log(this.removedCols[0])
+                this.grid.forEach((row, index)=>{
+                    Vue.set(row, column, this.removedCols[0][index][column])
+                   // row[column]=this.removedCols[0][index][column]
+                })
+
+
+
             },
 
             removeItem(row){

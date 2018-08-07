@@ -1,6 +1,7 @@
 <template>
     <div class="col-sm-3" title="title">
         <button @click="$emit('click')">
+            {{name}}
             <span :class="icon"></span>
         </button>
     </div>
@@ -12,7 +13,10 @@
             icon:{
                 type:String,
                 required:true,
-            }
+            },
+            name:{
+                type:String,
+            },
         }
     }
 </script>
