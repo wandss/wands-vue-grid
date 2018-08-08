@@ -2,13 +2,16 @@
 
   <div>
       <GridIcon v-for="column in hiddenColumns" :key="column"
-          icon="fa fa-eye" :name="column" @click="showColumn(column)"/>
+       icon="fa fa-eye" :name="column" @click="showColumn(column)"
+      />
+
       <table class="table table-bordered table-striped">
           <GridHeader :gridData="grid" @sort="sortBy"
            @hideColumn="hideColumn"/>
-          <GridRows v-for="(data, index) in grid " :key="index"
+          <GridRows v-for="(data, index) in grid" :key="index"
            :rowData="data" @removeItem="removeItem(data)"
-           @click="$emit('click', data)"/>
+           @click="$emit('click', data)"
+           />
       </table>
   </div>
 </template>
@@ -25,9 +28,9 @@
             return {
                 sortedBy:'',
                 hiddenColumns:[],
-                removedCols:[],
+                storedCols:[],
                 grid:[],
-                originalGrid:[],
+                header:[],
             }
         },
         created(){
@@ -36,46 +39,48 @@
                 grid.forEach((item)=>item['Ações'] = 'actionButtons');
             }
             this.grid = grid;
-            this.originalGrid = grid;
+            this.header = Object.keys(this.grid[0]);
         },
         methods:{
             hideColumn(colName){
-                console.log('Hiding column '+colName)
                 const columns = Object.keys(this.grid[0]).filter(colname=>
                     colname!==colName)
 
-                const removedCols = this.grid.map(row=>row[colName]).map(item=>{
-                    return {[colName]:item}
-                });
-                this.removedCols.push(removedCols)
-                //Save the data from the removed col. Push this array
-                //to hiddenColumns
-
-                columns.map((col)=>this.grid.forEach((row, index)=>{
-                    //console.log({[col]:row[col]})
-
-                    if(Object.keys(row).indexOf(col)===index){
-                        console.log(row)
-                    }
-
-                    // if index === indexOf return the row
-                }
-                ));
-
+                const storedCols = {[colName]:this.grid.slice().map(row=>row[colName])};
 
                 this.grid.map(row=>
                     Vue.delete(row, colName)
                 )
                 this.hiddenColumns.push(colName);
+                this.storedCols.push(storedCols)
             },
             showColumn(column){
-                console.log(column)
-                console.log(this.removedCols)
-                console.log(this.removedCols[0])
-                this.grid.forEach((row, index)=>{
-                    Vue.set(row, column, this.removedCols[0][index][column])
-                   // row[column]=this.removedCols[0][index][column]
+                const restoreData = this.storedCols.filter((item)=>
+                    item[column]!==undefined)[0][column]
+                /*Iterate over this.grid based on this.header
+                if row[col] is undefined, add data from restoreData
+                */
+                var restoredGrid = this.grid.map(item=>new Object);
+                this.header.forEach((col,)=>{
+                    this.grid.forEach((row, index)=>{
+                        if(row[col]===undefined){
+                            restoredGrid[index][column]=restoreData[index]
+                        }
+                        else{
+                            restoredGrid[index][col]=row[col]
+                        }
+                    })
                 })
+                this.grid = restoredGrid;
+                /*Needs to remove slice hiddenColumns and storedCols data
+                refactor and change some variables names
+                Check if is there are any unused vars
+                Review the code.
+                Teste.
+                Merge in to master.
+
+                    */
+
 
 
 
