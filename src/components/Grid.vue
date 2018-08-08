@@ -43,11 +43,7 @@
         },
         methods:{
             hideColumn(colName){
-                const columns = Object.keys(this.grid[0]).filter(colname=>
-                    colname!==colName)
-
                 const storedCols = {[colName]:this.grid.slice().map(row=>row[colName])};
-
                 this.grid.map(row=>
                     Vue.delete(row, colName)
                 )
@@ -57,9 +53,9 @@
             showColumn(column){
                 const restoreData = this.storedCols.filter((item)=>
                     item[column]!==undefined)[0][column]
-                /*Iterate over this.grid based on this.header
-                if row[col] is undefined, add data from restoreData
-                */
+
+                const index = this.hiddenColumns.indexOf(column)
+                
                 var restoredGrid = this.grid.map(item=>new Object);
                 this.header.forEach((col,)=>{
                     this.grid.forEach((row, index)=>{
@@ -72,14 +68,22 @@
                     })
                 })
                 this.grid = restoredGrid;
-                /*Needs to remove slice hiddenColumns and storedCols data
-                refactor and change some variables names
-                Check if is there are any unused vars
+                this.storedCols.splice(index, 1)
+                this.hiddenColumns.splice(index, 1)
+
+                /*Refactor and change some variables names
+                Check if there are any unused vars
                 Review the code.
-                Teste.
+                Test.
                 Merge in to master.
 
-                    */
+                TODO:
+                Merge this.storedCols and this.hiddenCols into an unique Array.
+                    or make this.hiddenCols a computed property based on
+                    this.storedCols(seems to be the best way)
+                When removing a row, "this.storedCols" must be updated as well.
+
+                */
 
 
 
