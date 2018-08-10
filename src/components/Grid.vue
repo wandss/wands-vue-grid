@@ -56,7 +56,11 @@
 
                 const index = this.hiddenColumns.indexOf(column)
                 
-                var restoredGrid = this.grid.map(item=>new Object);
+                const restoredGrid = []
+                for(let i in this.grid){
+                    restoredGrid.push({})
+                }
+
                 this.header.forEach((col,)=>{
                     this.grid.forEach((row, index)=>{
                         if(row[col]===undefined){
@@ -81,17 +85,21 @@
                 Merge this.storedCols and this.hiddenCols into an unique Array.
                     or make this.hiddenCols a computed property based on
                     this.storedCols(seems to be the best way)
-                When removing a row, "this.storedCols" must be updated as well.
 
                 */
-
-
-
 
             },
 
             removeItem(row){
                 const index = this.grid.map((item)=>item.id).indexOf(row.id);
+                if(this.storedCols.length>0){
+                    this.storedCols.forEach((storedItems=>{
+                        for(let item in storedItems){
+                            storedItems[item].splice(index, 1)
+                        }
+                    }))
+                }
+                
                 this.grid.splice(index, 1);
             },
             sortBy(col){
