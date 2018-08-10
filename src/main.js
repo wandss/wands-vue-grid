@@ -10,3 +10,9 @@ new Vue({
 }).$mount('#app');
 
 
+/*TODO
+ * Hide columns when creating Grid.
+ * Attention to ID column
+ *
+ *
+ */

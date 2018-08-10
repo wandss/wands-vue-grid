@@ -18,7 +18,6 @@
 <script>
     import GridHeader from './GridHeader';
     import GridRows from './GridRows';
-    import Vue from 'vue';
 
     export default{
         name:'Grid',
@@ -28,7 +27,7 @@
             return {
                 sortedBy:'',
                 hiddenColumns:[],
-                storedCols:[],
+                storedData:[],
                 grid:[],
                 header:[],
             }
@@ -43,20 +42,22 @@
         },
         methods:{
             hideColumn(colName){
-                const storedCols = {[colName]:this.grid.slice().map(row=>row[colName])};
+                const storedData = {[colName]:
+                    this.grid.slice().map(row=>row[colName])};
                 this.grid.map(row=>
-                    Vue.delete(row, colName)
+                    this.$delete(row, colName)
                 )
                 this.hiddenColumns.push(colName);
-                this.storedCols.push(storedCols)
+                this.storedData.push(storedData);
             },
             showColumn(column){
-                const restoreData = this.storedCols.filter((item)=>
-                    item[column]!==undefined)[0][column]
+                const restoredData = this.storedData.filter((item)=>
+                    item[column]!==undefined)[0][column];
 
-                const index = this.hiddenColumns.indexOf(column)
+                const index = this.hiddenColumns.indexOf(column);
                 
                 const restoredGrid = []
+                //eslint-disable-next-line
                 for(let i in this.grid){
                     restoredGrid.push({})
                 }
@@ -64,7 +65,7 @@
                 this.header.forEach((col,)=>{
                     this.grid.forEach((row, index)=>{
                         if(row[col]===undefined){
-                            restoredGrid[index][column]=restoreData[index]
+                            restoredGrid[index][column]=restoredData[index]
                         }
                         else{
                             restoredGrid[index][col]=row[col]
@@ -72,34 +73,18 @@
                     })
                 })
                 this.grid = restoredGrid;
-                this.storedCols.splice(index, 1)
+                this.storedData.splice(index, 1)
                 this.hiddenColumns.splice(index, 1)
-
-                /*Refactor and change some variables names
-                Check if there are any unused vars
-                Review the code.
-                Test.
-                Merge in to master.
-
-                TODO:
-                Merge this.storedCols and this.hiddenCols into an unique Array.
-                    or make this.hiddenCols a computed property based on
-                    this.storedCols(seems to be the best way)
-
-                */
-
             },
-
             removeItem(row){
                 const index = this.grid.map((item)=>item.id).indexOf(row.id);
-                if(this.storedCols.length>0){
-                    this.storedCols.forEach((storedItems=>{
+                if(this.storedData.length>0){
+                    this.storedData.forEach((storedItems=>{
                         for(let item in storedItems){
                             storedItems[item].splice(index, 1)
                         }
                     }))
                 }
-                
                 this.grid.splice(index, 1);
             },
             sortBy(col){
