@@ -3,8 +3,7 @@
         <tr>
             <th v-for="(item, index) in getHeader" :key="index"
              @click.prevent.self="$emit('sort', item)">
-                <i class="fa fa-sort">
-                </i>
+                <i class="fa fa-sort"></i>
                 {{item}}
                 <div id="hideColumn" @click="$emit('hideColumn', item)">
                     <i class='fa fa-eye-slash'></i>
@@ -24,7 +23,7 @@
         },
         data(){
             return{
-                originalHeader:undefined,
+                originalHeader:null,
             }
         },
         computed:{

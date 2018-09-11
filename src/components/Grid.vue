@@ -1,7 +1,12 @@
 <template>
-
   <div>
-      <input type="text" v-model="query" @input="search">
+      <div class="row">
+          <div class="col-sm-3">
+              <app-input type="text" v-model="query" label=''
+               placeholder="Filtrar Resultados" @input="search"
+              />
+          </div>
+      </div>
       <AppButton v-for="column in hiddenColumns" :key="column"
         type="button" icon="fa fa-eye" cssClass="btn-sm btn-default" 
         :name="column" @click="showColumn(column)"
@@ -16,24 +21,28 @@
            @click="$emit('click', data)"
            />
       </table>
-      <div v-if="grid.length===0">
-          Item não localizado!
-      </div>
+      <Alert title="" :showAlert="grid.length===0" align="center"
+       cssClass="warning">
+          <h4>Item não localizado!</h4>
+      </Alert>
   </div>
 </template>
 <script>
     import GridHeader from './GridHeader';
     import GridRows from './GridRows';
-    import AppButton from '@/components/AppButton';
+    import AppButton from './AppButton';
+    import Alert from './Alert';
+    import AppInput from './AppInput';
 
     export default{
         name:'Grid',
-        components:{AppButton},
+        components:{GridHeader, GridRows, AppButton, 
+            Alert, AppInput},
         props:{
             gridData:{
                 type:Array,
                 required:true,
-                default:[
+                default:()=>[
                     {id:'001',info:'Texto Demonstrativo'},
                     {id:'002',info:'Outro texto Qualquer'},
                 ],
@@ -44,7 +53,6 @@
             },
 
         },
-        components:{GridHeader, GridRows },
         data(){
             return {
                 sortedBy:'',
@@ -151,9 +159,8 @@
                                     )?newGrid.push(row):null;
                                 }
                                 catch(err){
-                                    console.log(err)
+                                    //Handle excpetions
                                 }
-                                
                             }
                         })
                     })
