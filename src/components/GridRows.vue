@@ -5,8 +5,10 @@
                 @click="$emit('click')">
                 <div v-if="item === 'actionButtons'">
                     <GridIcon icon="fa fa-edit" title="Editar"
+                     @click="$emit('editItem','edit')"
                     />
                     <GridIcon icon="fa fa-th-list" title="Detalhar"
+                     @click="$emit('detailItem','detail')"
                     />
                     <GridIcon icon="fa fa-trash" title="Apagar"
                      @click="$emit('removeItem')"

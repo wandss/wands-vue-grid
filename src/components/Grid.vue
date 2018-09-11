@@ -1,27 +1,49 @@
 <template>
 
   <div>
-      <GridIcon v-for="column in hiddenColumns" :key="column"
-       icon="fa fa-eye" :name="column" @click="showColumn(column)"
+      <input type="text" v-model="query" @input="search">
+      <AppButton v-for="column in hiddenColumns" :key="column"
+        type="button" icon="fa fa-eye" cssClass="btn-sm btn-default" 
+        :name="column" @click="showColumn(column)"
       />
-
-      <table class="table table-bordered table-striped">
+      <table class="table table-bordered table-striped" v-if="gridData.length>0">
           <GridHeader :gridData="grid" @sort="sortBy"
            @hideColumn="hideColumn"/>
           <GridRows v-for="(data, index) in grid" :key="index"
-           :rowData="data" @removeItem="removeItem(data)"
+           :rowData="data" @removeItem="$emit('removeItem',data)"
+           @editItem="$emit('editItem', data)"
+           @detailItem="$emit('detailItem', data)"         
            @click="$emit('click', data)"
            />
       </table>
+      <div v-if="grid.length===0">
+          Item não localizado!
+      </div>
   </div>
 </template>
 <script>
     import GridHeader from './GridHeader';
     import GridRows from './GridRows';
+    import AppButton from '@/components/AppButton';
 
     export default{
         name:'Grid',
-        props:['gridData','hasActionButtons',],
+        components:{AppButton},
+        props:{
+            gridData:{
+                type:Array,
+                required:true,
+                default:[
+                    {id:'001',info:'Texto Demonstrativo'},
+                    {id:'002',info:'Outro texto Qualquer'},
+                ],
+            },
+            hasActionButtons:{
+                type:Boolean,
+                default:false,
+            },
+
+        },
         components:{GridHeader, GridRows },
         data(){
             return {
@@ -30,14 +52,17 @@
                 storedData:[],
                 grid:[],
                 header:[],
+                query:null,
+                originalGrid:[],
             }
         },
         created(){
-            const grid = this.gridData;
+            const grid = this.gridData.slice();
             if(this.hasActionButtons){
                 grid.forEach((item)=>item['Ações'] = 'actionButtons');
             }
             this.grid = grid;
+            this.originalGrid = grid.concat()
             this.header = Object.keys(this.grid[0]);
         },
         methods:{
@@ -111,8 +136,38 @@
                     })
                 }
                 this.sortedBy = col;
-            }
-        }
+            },
+            search(){
+                const pattern = this.query.length>0?
+                    new RegExp(this.query.toLowerCase()):null;
+                let newGrid = [];
+                if(pattern!==null){
+                    this.originalGrid.forEach((row)=>{
+                        Object.keys(row).forEach(col=>{
+                            if(col.toLowerCase()!=='ações'){
+                                try{
+                                    pattern.test(
+                                        row[col].toString().toLowerCase()
+                                    )?newGrid.push(row):null;
+                                }
+                                catch(err){
+                                    console.log(err)
+                                }
+                                
+                            }
+                        })
+                    })
+                    if(newGrid.length!==0){
+                        this.grid = newGrid.slice()
+                    }
+                }
+                else{
+                    newGrid = this.originalGrid.concat()
+                }
+                this.grid = newGrid.filter((item, index,arr)=>
+                    arr.indexOf(item)===index).concat()
+            },
+        },
   }
 </script>
 <style>

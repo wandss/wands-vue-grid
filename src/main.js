@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import App from './App';
-import GridIcon from './components/GridIcon';
+import AppButton from './components/AppButton';
 
-Vue.component('GridIcon', GridIcon);
+Vue.component('AppButton', AppButton);
 
 new Vue({
-  components:{GridIcon},
+  components:{AppButton},
   render:h=>h(App),
 }).$mount('#app');
 

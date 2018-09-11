@@ -16,16 +16,28 @@
 <script>
     export default{
         name:'GridHeader',
-        props:['gridData'],
+        props:{
+            gridData:{
+                type:Array,
+                required:true
+            },
+        },
         data(){
             return{
-                headerData:undefined,
+                originalHeader:undefined,
             }
         },
         computed:{
             getHeader(){
-                return Object.keys(this.gridData[0]);
+                return this.gridData.length!==0?
+                    Object.keys(this.gridData[0]):
+                    this.originalHeader;
             },
+        },
+        mounted(){
+            if(this.gridData.length>0){
+                this.originalHeader = Object.keys(this.gridData[0])
+            }
         },
   }
 </script>
@@ -35,6 +47,7 @@ tr{
 }
 th{
     text-transform:capitalize;
+    text-align:left;
 }
 #hideColumn{
     float:right;

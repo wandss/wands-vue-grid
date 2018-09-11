@@ -20,6 +20,8 @@
                         genre:['Crime','Drama','Fantasy','Mistery']},
                     {id:4, movie:"Requiem For a Dream", year:1999,
                         genre:'Drama'},
+                    {id:1971, movie:"A Clockwork Orange", year:1971,
+                        genre:'Sci-Fi'},
                     ],
                 confirmDelete:false,
             }

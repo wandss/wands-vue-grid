@@ -26,6 +26,7 @@ button{
     background:transparent;
     font-size:1.7rem;
     outline:none;
+    color:#3c8dbc;
 }
 button:hover{
     opacity:0.7;
