@@ -51,17 +51,24 @@
                 type:Boolean,
                 default:false,
             },
-
         },
         data(){
             return {
                 sortedBy:'',
                 hiddenColumns:[],
                 storedData:[],
-                grid:[],
                 header:[],
                 query:null,
                 originalGrid:[],
+            }
+        },
+        watch:{
+            gridData(){
+                let grid = this.gridData.slice();
+                if(this.hasActionButtons){
+                    grid.forEach((item)=>item['Ações'] = 'actionButtons');
+                }
+                this.grid = grid
             }
         },
         created(){

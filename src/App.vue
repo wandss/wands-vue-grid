@@ -1,7 +1,9 @@
 <template>
   <div class="row">
       <div class="col-sm-12">
-          <Grid v-if="gridData.length>0" :gridData="gridData" :hasActionButtons="true" />
+          <Grid v-if="gridData.length>0" :gridData="gridData" :hasActionButtons="true" 
+            @removeItem="removeItem($event)"    
+          />
       </div>
   </div>
 </template>
@@ -26,6 +28,15 @@
                 confirmDelete:false,
             }
         },
+        methods:{
+            removeItem(item){
+                console.log(item)
+                const index = this.gridData.map(row=>
+                    row.id === item.id
+                )
+                this.gridData.splice(index, 1)
+            }
+        }
     }
 </script>
 <style>
