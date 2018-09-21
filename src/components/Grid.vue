@@ -1,23 +1,24 @@
 <template>
   <div>
       <div class="row">
-          <div class="col-sm-3">
+          <div class="col-sm-3" v-show="hasSearchField">
               <app-input type="text" v-model="query" label=''
                placeholder="Filtrar Resultados" @input="search"
               />
           </div>
       </div>
-      <AppButton v-for="column in hiddenColumns" :key="column"
+      <AppButton v-for="(column, index) in hiddenColumns" :key="column"
         type="button" icon="fa fa-eye" cssClass="btn-sm btn-default" 
-        :name="column" @click="showColumn(column)"
+        :name="column" @click="toggleColumn(column)"
       />
       <table class="table table-bordered table-striped" v-if="gridData.length>0">
-          <GridHeader :gridData="grid" @sort="sortBy"
+          <GridHeader :gridData="grid" @sort="sortBy" :gridConfig="gridConfig"
            @hideColumn="hideColumn"/>
           <GridRows v-for="(data, index) in grid" :key="index"
            :rowData="data" @removeItem="$emit('removeItem',data)"
+           :gridConfig="gridConfig"         
            @editItem="$emit('editItem', data)"
-           @detailItem="$emit('detailItem', data)"         
+           @detailItem="$emit('detailItem', data)"
            @click="$emit('click', data)"
            />
       </table>
@@ -47,11 +48,18 @@
                     {id:'002',info:'Outro texto Qualquer'},
                 ],
             },
+            gridConfig:{
+                type:Array,
+                default:()=>[],
+            },
+            hasSearchField:{
+                type:Boolean,
+                default:false,
+            },
             hasActionButtons:{
                 type:Boolean,
                 default:false,
             },
-
         },
         data(){
             return {
@@ -59,6 +67,7 @@
                 hiddenColumns:[],
                 storedData:[],
                 grid:[],
+                config:[],
                 header:[],
                 query:null,
                 originalGrid:[],
@@ -73,17 +82,44 @@
             this.originalGrid = grid.concat()
             this.header = Object.keys(this.grid[0]);
         },
+        watch:{
+            gridData(){
+                let grid = this.gridData.slice();
+                if(this.hasActionButtons){
+                    grid.forEach((item)=>item['Ações'] = 'actionButtons');
+                }
+                this.grid = grid
+            },
+            gridConfig(){
+                this.config = this.gridConfig.slice();
+            },
+        },
         methods:{
-            hideColumn(colName){
-                const storedData = {[colName]:
-                    this.grid.slice().map(row=>row[colName])};
-                this.grid.map(row=>
-                    this.$delete(row, colName)
-                )
-                this.hiddenColumns.push(colName);
-                this.storedData.push(storedData);
+            hideColumn(item){
+                let colName = item;
+
+
+                this.gridConfig.forEach(config=>{
+                    if(config.id === item){
+                        this.$set(config, 'hidden', true) 
+                        colName = config.colName!==undefined?
+                            config.colName:item
+                    }
+                })
+                if(colName===item){
+                    this.gridConfig.push({id:item, hidden:true})
+                }
             },
             showColumn(column){
+                console.log(column)
+                let colName = column
+                this.gridConfig.forEach(config=>{
+                    if(config.id === column){
+                    }
+                })
+
+                /*
+                /*TODO:Change here to update or add entry to gridConfig
                 const restoredData = this.storedData.filter((item)=>
                     item[column]!==undefined)[0][column];
 
@@ -108,6 +144,7 @@
                 this.grid = restoredGrid;
                 this.storedData.splice(index, 1)
                 this.hiddenColumns.splice(index, 1)
+                */
             },
             removeItem(row){
                 const index = this.grid.map((item)=>item.id).indexOf(row.id);
@@ -121,6 +158,8 @@
                 this.grid.splice(index, 1);
             },
             sortBy(col){
+                console.log('Must Refactor sorting method')
+                /*
                 if(col === this.sortedBy){
                     this.grid.reverse((a,b)=>{
                         if(a[col] > b[col]){
@@ -144,6 +183,7 @@
                     })
                 }
                 this.sortedBy = col;
+                */
             },
             search(){
                 const pattern = this.query.length>0?

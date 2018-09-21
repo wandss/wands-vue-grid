@@ -1,7 +1,7 @@
 <template>
     <tbody>
         <tr>
-            <td v-for="(item, key) in rowData " :key="key"
+            <td v-for="(item, key) in row " :key="key"
                 @click="$emit('click')">
                 <div v-if="item === 'actionButtons'">
                     <GridIcon icon="fa fa-edit" title="Editar"
@@ -27,7 +27,16 @@
     export default{
         components:{GridIcon,},
         name:'GridRows',
-        props:['rowData',],
+        props:{
+            rowData:{
+                type:Object,
+                required:true,
+            },
+            gridConfig:{
+                type:Array,
+                default:()=>[],
+            },
+        },
         methods:{
             formatItem(item){
                 var newItem = item;
@@ -38,6 +47,20 @@
                     newItem = Number(newItem).toLocaleString()
                 }
                 return newItem;
+            }
+        },
+        computed:{
+            row(){
+                let row = this.rowData
+                let cols = Object.keys(this.rowData)
+                this.gridConfig.forEach(item=>{
+                    const index = cols.indexOf(item.id)
+                    const colName = cols[index]
+                    if(item.hidden){
+                        delete(row[[colName]])
+                    }
+                })
+                return row
             }
         }
     }

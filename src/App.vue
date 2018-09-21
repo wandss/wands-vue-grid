@@ -1,7 +1,9 @@
 <template>
   <div class="row">
       <div class="col-sm-12">
-          <Grid v-if="gridData.length>0" :gridData="gridData" :hasActionButtons="true" />
+          <Grid v-if="gridData.length>0" :gridData="gridData" :hasActionButtons="true" 
+           :hasSearchField="true" :gridConfig="gridConfig"
+          />
       </div>
   </div>
 </template>
@@ -24,6 +26,13 @@
                         genre:'Sci-Fi'},
                     ],
                 confirmDelete:false,
+                gridConfig:[
+                    {id:'id', colName:'ID', hidden:true},
+                    {id:'movie', colName:'Filmes',},
+                    {id:'genre', colName:'Gênero', hidden:false},
+                    {id:'year', hidden:false},
+                    //Test Object without colName and hidden keys
+                ],
             }
         },
     }
