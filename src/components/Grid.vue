@@ -7,7 +7,7 @@
               />
           </div>
       </div>
-      <AppButton v-for="(column, index) in hiddenColumns" :key="column"
+      <AppButton v-for="column in hiddenColumns" :key="column"
         type="button" icon="fa fa-eye" cssClass="btn-sm btn-default" 
         :name="column" @click="toggleColumn(column)"
       />
@@ -63,7 +63,7 @@
         },
         data(){
             return {
-                sortedBy:'',
+                sortedBy:null,
                 hiddenColumns:[],
                 storedData:[],
                 grid:[],
@@ -132,32 +132,28 @@
                 this.grid.splice(index, 1);
             },
             sortBy(col){
-                console.log('Must Refactor sorting method')
-                /*
-                if(col === this.sortedBy){
-                    this.grid.reverse((a,b)=>{
-                        if(a[col] > b[col]){
+                let colName = col;
+                this.gridConfig.forEach(item=>{
+                    if(col === item.colName){
+                        colName = item.id
+                    }
+                })
+
+                let sortType = this.sortedBy!==colName?
+                    'sort':'reverse';
+
+                if(colName !== 'Ações'){
+                    this.grid[sortType]((a,b)=>{
+                        if(a[colName] > b[colName]){
                             return 1
                         }
-                        if(a[col] < b[col]){
+                        if(a[colName] < b[colName]){
                             return -1
                         }
                         else{return 0}
                     })
+                    this.sortedBy = colName
                 }
-                else{
-                    this.grid.sort((a,b)=>{
-                        if(a[col] > b[col]){
-                            return 1
-                        }
-                        if(a[col] < b[col]){
-                            return -1
-                        }
-                        else{return 0}
-                    })
-                }
-                this.sortedBy = col;
-                */
             },
             search(){
                 const pattern = this.query.length>0?

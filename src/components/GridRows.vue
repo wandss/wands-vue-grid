@@ -53,12 +53,10 @@
             row(){
                 let row = {}
                 let cols = Object.keys(this.rowData)
-                //console.log(cols)
 
                 this.gridConfig.forEach(item=>{
                     if(item.hidden){
                         const index = cols.indexOf(item.id)
-                        const colName = cols[index]
                         if(index!==-1){
                             cols.splice(index, 1)
                         }

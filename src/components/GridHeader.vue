@@ -2,10 +2,10 @@
     <thead>
         <tr>
             <th v-for="(item, index) in header" :key="index"
-             @click.prevent.self="$emit('sort', item)">
+             @click.prevent.self="$emit('sort', header[index])">
                 <i class="fa fa-sort"></i>
                 {{item}}
-                <div id="hideColumn" @click="hideColumn(index)">
+                <div id="hideColumn" @click="$emit('hideColumn', header[index])">
                     <i class='fa fa-eye-slash'></i>
                 </div>
             </th>
@@ -74,9 +74,6 @@
                 
                 return header 
             },
-            hideColumn(index){
-                this.$emit('hideColumn', this.header[index])
-            }
         }
   }
 </script>
