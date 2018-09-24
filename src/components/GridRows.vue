@@ -51,15 +51,22 @@
         },
         computed:{
             row(){
-                let row = this.rowData
+                let row = {}
                 let cols = Object.keys(this.rowData)
+                //console.log(cols)
+
                 this.gridConfig.forEach(item=>{
-                    const index = cols.indexOf(item.id)
-                    const colName = cols[index]
                     if(item.hidden){
-                        delete(row[[colName]])
+                        const index = cols.indexOf(item.id)
+                        const colName = cols[index]
+                        if(index!==-1){
+                            cols.splice(index, 1)
+                        }
                     }
                 })
+                cols.forEach(col=>
+                    row[col] = this.rowData[[col]]
+                )
                 return row
             }
         }

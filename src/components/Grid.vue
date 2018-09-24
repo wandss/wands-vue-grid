@@ -13,10 +13,10 @@
       />
       <table class="table table-bordered table-striped" v-if="gridData.length>0">
           <GridHeader :gridData="grid" @sort="sortBy" :gridConfig="gridConfig"
-           @hideColumn="hideColumn"/>
+           @hideColumn="toggleColumn"/>
           <GridRows v-for="(data, index) in grid" :key="index"
            :rowData="data" @removeItem="$emit('removeItem',data)"
-           :gridConfig="gridConfig"         
+           :gridConfig="gridConfig" 
            @editItem="$emit('editItem', data)"
            @detailItem="$emit('detailItem', data)"
            @click="$emit('click', data)"
@@ -67,7 +67,6 @@
                 hiddenColumns:[],
                 storedData:[],
                 grid:[],
-                config:[],
                 header:[],
                 query:null,
                 originalGrid:[],
@@ -90,61 +89,36 @@
                 }
                 this.grid = grid
             },
+            /*
             gridConfig(){
                 this.config = this.gridConfig.slice();
             },
+            */
         },
         methods:{
-            hideColumn(item){
+            toggleColumn(item){
                 let colName = item;
+                let index =  this.hiddenColumns.indexOf(colName);
+                let hidden = index === -1;
+                let addConfig = true;
 
-
-                this.gridConfig.forEach(config=>{
-                    if(config.id === item){
-                        this.$set(config, 'hidden', true) 
+                this.gridConfig.filter(config=>config.id===item ||
+                    config.colName===item).forEach(config=>{
+                        this.$set(config, 'hidden', hidden);
                         colName = config.colName!==undefined?
-                            config.colName:item
-                    }
-                })
-                if(colName===item){
-                    this.gridConfig.push({id:item, hidden:true})
-                }
-            },
-            showColumn(column){
-                console.log(column)
-                let colName = column
-                this.gridConfig.forEach(config=>{
-                    if(config.id === column){
-                    }
-                })
-
-                /*
-                /*TODO:Change here to update or add entry to gridConfig
-                const restoredData = this.storedData.filter((item)=>
-                    item[column]!==undefined)[0][column];
-
-                const index = this.hiddenColumns.indexOf(column);
-                
-                const restoredGrid = []
-                //eslint-disable-next-line
-                for(let i in this.grid){
-                    restoredGrid.push({})
-                }
-
-                this.header.forEach((col,)=>{
-                    this.grid.forEach((row, index)=>{
-                        if(row[col]===undefined){
-                            restoredGrid[index][column]=restoredData[index]
-                        }
-                        else{
-                            restoredGrid[index][col]=row[col]
-                        }
+                            config.colName:item;
+                        addConfig = false;
                     })
-                })
-                this.grid = restoredGrid;
-                this.storedData.splice(index, 1)
-                this.hiddenColumns.splice(index, 1)
-                */
+
+                if(addConfig){
+                    this.gridConfig.push({id:item, hidden:hidden})
+                }
+                if(hidden){
+                    this.hiddenColumns.push(colName)
+                }
+                else{
+                    this.hiddenColumns.splice(index, 1)
+                }
             },
             removeItem(row){
                 const index = this.grid.map((item)=>item.id).indexOf(row.id);

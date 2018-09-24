@@ -47,15 +47,25 @@
                         const index = header.indexOf(column.id);
                         const hidden = column.hidden===undefined?
                             false:column.hidden
+                        const colName = column.colName!==undefined?
+                            column.colName:column.id
 
                         if(index!==-1){
                             if(!hidden){
-                                header[index] = column.colName!==undefined?
-                                    column.colName:column.id
+                                header[index] = colName
                             }
                             else{
                                 //Removes columns when hidden is true
-                                header.splice(index,1)
+                                header.splice(index, 1)
+                            }
+                        }
+                        else{
+                            if(!hidden){
+                                //Show hidden columns. 
+                                let index = this.originalHeader.indexOf(
+                                    colName)
+                                header.splice(index, 0,
+                                    colName)
                             }
                         }
                     })
@@ -65,8 +75,7 @@
                 return header 
             },
             hideColumn(index){
-                this.$emit('hideColumn', 
-                    Object.keys(this.gridData[0])[index])
+                this.$emit('hideColumn', this.header[index])
             }
         }
   }
