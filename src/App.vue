@@ -2,7 +2,8 @@
   <div class="row">
       <div class="col-sm-12">
           <Grid v-if="gridData.length>0" :gridData="gridData" :hasActionButtons="true" 
-           :hasSearchField="true" :gridConfig="gridConfig"
+           :hasSearchField="true" :gridConfig="gridConfig" @click="handleClick"
+           :actions="actions"     
           />
       </div>
   </div>
@@ -25,12 +26,22 @@
                     {id:1971, movie:"A Clockwork Orange", year:1971,
                         genre:'Sci-Fi'},
                     ],
-                confirmDelete:false,
                 gridConfig:[
                     {id:'id', colName:'ID', hidden:true},
                     {id:'movie', colName:'Filmes',},
                     {id:'genre', colName:'Gênero', hidden:false},
                 ],
+                actions:[
+                    {name:'Visualizar', icon:'fa fa-eye', 
+                        event:function view(item){alert(item)}},
+                    {name:'Excluir', icon:'fa fa-trash', 
+                        event:'Delete'}
+                ],
+            }
+        },
+        methods:{
+            handleClick(event, data){
+                event()
             }
         },
     }

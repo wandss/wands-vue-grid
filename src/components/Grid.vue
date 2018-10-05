@@ -15,11 +15,9 @@
           <GridHeader :gridData="grid" @sort="sortBy" :gridConfig="gridConfig"
            @hideColumn="toggleColumn"/>
           <GridRows v-for="(data, index) in grid" :key="index"
-           :rowData="data" @removeItem="$emit('removeItem',data)"
+           :rowData="data" 
            :gridConfig="gridConfig" 
-           @editItem="$emit('editItem', data)"
-           @detailItem="$emit('detailItem', data)"
-           @click="$emit('click', data)"
+           @click="$emit('click', $event, data)"
            />
       </table>
       <Alert title="" :showAlert="grid.length===0" align="center"
@@ -60,6 +58,10 @@
                 type:Boolean,
                 default:false,
             },
+            actions:{
+                type:Array,
+                default:()=>[],
+            }
         },
         data(){
             return {
@@ -74,8 +76,12 @@
         },
         created(){
             const grid = this.gridData.slice();
-            if(this.hasActionButtons){
-                grid.forEach((item)=>item['Ações'] = 'actionButtons');
+            const actions = [
+            ]
+            if(this.actions.length>0){
+                grid.forEach((item)=>
+                    item['Ações'] = this.actions
+                )
             }
             this.grid = grid;
             this.originalGrid = grid.concat()

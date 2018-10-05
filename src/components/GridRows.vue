@@ -2,20 +2,15 @@
     <tbody>
         <tr>
             <td v-for="(item, key) in row " :key="key"
-                @click="$emit('click')">
-                <div v-if="item === 'actionButtons'">
-                    <GridIcon icon="fa fa-edit" title="Editar"
-                     @click="$emit('editItem','edit')"
-                    />
-                    <GridIcon icon="fa fa-th-list" title="Detalhar"
-                     @click="$emit('detailItem','detail')"
-                    />
-                    <GridIcon icon="fa fa-trash" title="Apagar"
-                     @click="$emit('removeItem')"
+                @click="$emit('rowClick')">
+                <div v-if="key === 'Ações' ">
+                    <grid-icon v-for="btn in item"
+                     :key="btn.name"
+                     :icon="btn.icon" :title="btn.title"                                   
+                      @click="$emit('click', btn.event)"
                     />
                 </div>
                 <div v-else v-html="formatItem(item)">
-                    {{formatItem(item)}}
                 </div>
             </td>
         </tr>
