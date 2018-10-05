@@ -17,7 +17,7 @@
           <GridRows v-for="(data, index) in grid" :key="index"
            :rowData="data" 
            :gridConfig="gridConfig" 
-           @click="$emit('click', $event, data)"
+           @click="handleClick($event, data)"
            />
       </table>
       <Alert title="" :showAlert="grid.length===0" align="center"
@@ -76,9 +76,19 @@
         },
         created(){
             const grid = this.gridData.slice();
-            const actions = [
-            ]
-            if(this.actions.length>0){
+            if(this.hasActionButtons && this.actions.length === 0){
+                const defaultActions = [
+                    {name:'Editar', icon:'fa fa-edit',
+                        event:function(){console.log('EDIT ITEM')},},
+                    {name:'Detalhar', icon:'fa fa-th-list',
+                        event:function(){console.log('View Details')},},
+                    {name:'Apagar', icon:'fa fa-trash',
+                        event:function(row){console.log('Apagar'+row)},
+                    },
+                ]
+                grid.forEach((item)=>item['Ações'] = defaultActions)
+            }
+            else if(this.actions.length>0){
                 grid.forEach((item)=>
                     item['Ações'] = this.actions
                 )
@@ -90,16 +100,8 @@
         watch:{
             gridData(){
                 let grid = this.gridData.slice();
-                if(this.hasActionButtons){
-                    grid.forEach((item)=>item['Ações'] = 'actionButtons');
-                }
                 this.grid = grid
             },
-            /*
-            gridConfig(){
-                this.config = this.gridConfig.slice();
-            },
-            */
         },
         methods:{
             toggleColumn(item){
@@ -190,6 +192,9 @@
                 this.grid = newGrid.filter((item, index,arr)=>
                     arr.indexOf(item)===index).concat()
             },
+            handleClick(event, data){
+                this.$emit('click', event, data)
+            }
         },
   }
 </script>

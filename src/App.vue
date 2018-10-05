@@ -1,10 +1,12 @@
 <template>
-  <div class="row">
-      <div class="col-sm-12">
-          <Grid v-if="gridData.length>0" :gridData="gridData" :hasActionButtons="true" 
-           :hasSearchField="true" :gridConfig="gridConfig" @click="handleClick"
-           :actions="actions"     
-          />
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-sm-12">
+              <Grid v-if="gridData.length>0" :gridData="gridData" :hasActionButtons="true" 
+               :hasSearchField="true" :gridConfig="gridConfig" @click="handleClick"
+               :actions="actions"    
+              />
+          </div>
       </div>
   </div>
 </template>
@@ -33,15 +35,15 @@
                 ],
                 actions:[
                     {name:'Visualizar', icon:'fa fa-eye', 
-                        event:function view(item){alert(item)}},
+                        event:function view(value){alert(value)}},
                     {name:'Excluir', icon:'fa fa-trash', 
-                        event:'Delete'}
+                        event:function remove(item){alert(item.id)}}
                 ],
             }
         },
         methods:{
             handleClick(event, data){
-                event()
+                event(data)
             }
         },
     }
