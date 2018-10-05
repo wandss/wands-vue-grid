@@ -14,7 +14,7 @@
                      @click="$emit('removeItem')"
                     />
                 </div>
-                <div v-else>
+                <div v-else v-html="formatItem(item)">
                     {{formatItem(item)}}
                 </div>
             </td>
