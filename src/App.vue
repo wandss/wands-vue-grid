@@ -34,16 +34,28 @@
                     {id:'genre', colName:'Gênero', hidden:false},
                 ],
                 actions:[
-                    {name:'Visualizar', icon:'fa fa-eye', 
+                    {title:'Visualizar', icon:'fa fa-eye', 
                         event:function view(value){alert(value)}},
-                    {name:'Excluir', icon:'fa fa-trash', 
+                    {title:'Excluir', icon:'fa fa-trash', 
                         event:function remove(item){alert(item.id)}}
                 ],
             }
         },
+        created(){
+            this.actions.push({title:'Selecionar', 
+                icon:'fa fa-check', event:this.selectRow})
+        },
         methods:{
             handleClick(event, data){
                 event(data)
+            },
+            selectRow(data){
+                if(Object.keys(data).indexOf('rowColor')===-1){
+                    this.$set(data, 'rowColor', '#44ed594d')
+                }
+                else{
+                    this.$delete(data, 'rowColor')
+                }
             }
         },
     }

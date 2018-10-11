@@ -1,5 +1,8 @@
+<!--When a property inside gridData has name equals 'rowColor'
+    it's value will be used as backgroudcolor for that particular row.
+-->
 <template>
-  <div>
+  <div style="overflow:auto">
       <div class="row">
           <div class="col-sm-3" v-show="hasSearchField">
               <app-input type="text" v-model="query" label=''
@@ -14,11 +17,13 @@
       <table class="table table-bordered table-striped" v-if="gridData.length>0">
           <GridHeader :gridData="grid" @sort="sortBy" :gridConfig="gridConfig"
            @hideColumn="toggleColumn"/>
-          <GridRows v-for="(data, index) in grid" :key="index"
-           :rowData="data" 
-           :gridConfig="gridConfig" 
-           @click="handleClick($event, data)"
-           />
+          <tbody>
+              <GridRows v-for="(data, index) in grid" :key="index"
+               :rowData="data" 
+               :gridConfig="gridConfig" 
+               @click="handleClick($event, data)"
+               />
+          </tbody>
       </table>
       <Alert title="" :showAlert="grid.length===0" align="center"
        cssClass="warning">
@@ -194,7 +199,7 @@
             },
             handleClick(event, data){
                 this.$emit('click', event, data)
-            }
+            },
         },
   }
 </script>

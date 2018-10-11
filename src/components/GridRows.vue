@@ -1,20 +1,18 @@
 <template>
-    <tbody>
-        <tr>
-            <td v-for="(item, key) in row " :key="key"
-                @click="$emit('rowClick')">
-                <div v-if="key === 'Ações' ">
-                    <grid-icon v-for="btn in item"
-                     :key="btn.name"
-                     :icon="btn.icon" :title="btn.title"                                   
-                      @click="$emit('click', btn.event)"
-                    />
-                </div>
-                <div v-else v-html="formatItem(item)">
-                </div>
-            </td>
-        </tr>
-    </tbody>
+    <tr :style="{'background-color':rowColor}">
+        <td v-for="(item, key) in row " :key="key"
+            @click="$emit('rowClick')">
+            <div v-if="key === 'Ações' ">
+                <grid-icon v-for="btn in item"
+                 :key="btn.name"
+                 :icon="btn.icon" :title="btn.title"                                   
+                  @click="$emit('click', btn.event)"
+                />
+            </div>
+            <div v-else v-html="formatItem(item)">
+            </div>
+        </td>
+    </tr>
 </template>
 <script>
     import GridIcon from './GridIcon';
@@ -32,6 +30,11 @@
                 default:()=>[],
             },
         },
+        data(){
+            return{
+                rowColor:'',
+            }
+        },
         methods:{
             formatItem(item){
                 var newItem = item;
@@ -48,6 +51,16 @@
             row(){
                 let row = {}
                 let cols = Object.keys(this.rowData)
+                const rowColorIndex = cols.indexOf('rowColor')
+
+                if(rowColorIndex !== -1){
+                    //Removes rowColor property
+                    cols.splice(rowColorIndex, 1)
+                    this.rowColor = this.rowData.rowColor
+                }
+                else{
+                    this.rowColor = '';
+                }
 
                 this.gridConfig.forEach(item=>{
                     if(item.hidden){

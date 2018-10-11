@@ -71,7 +71,11 @@
                     })
                 }
                 else{header = this.originalHeader}
-                
+
+                if(header.indexOf('rowColor')!==-1){
+                    header.splice(header.indexOf('rowColor'), 1)
+                }
+
                 return header 
             },
         }
