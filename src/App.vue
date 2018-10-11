@@ -1,8 +1,8 @@
 <template>
     <div class="container-fluid">
       <div class="row">
-          <div class="col-sm-12">
-              <Grid v-if="gridData.length>0" :gridData="gridData" :hasActionButtons="true" 
+          <div class="col-sm-12 col-md-12">
+              <Grid :gridData="gridData" :hasActionButtons="true" 
                :hasSearchField="true" :gridConfig="gridConfig" @click="handleClick"
                :actions="actions"    
               />
@@ -12,6 +12,7 @@
 </template>
 <script>
     import Grid from './components/Grid';
+    import axios from 'axios';
     export default{
         name:'APP',
         components:{Grid, },
@@ -33,6 +34,7 @@
                     {id:'movie', colName:'Filmes',},
                     {id:'genre', colName:'Gênero', hidden:false},
                 ],
+                gridConfig:[],
                 actions:[
                     {title:'Visualizar', icon:'fa fa-eye', 
                         event:function view(value){alert(value)}},

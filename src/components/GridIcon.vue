@@ -1,5 +1,5 @@
 <template>
-    <div class="col-sm-3" title="title">
+    <div class="col-sm-3 col-md-3" title="title">
         <button @click="$emit('click')">
             {{name}}
             <span :class="icon"></span>
@@ -24,7 +24,7 @@
 button{
     border:none;
     background:transparent;
-    font-size:1.7rem;
+    font-size:2rem;
     outline:none;
     color:#3c8dbc;
 }

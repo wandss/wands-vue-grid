@@ -14,20 +14,19 @@
         type="button" icon="fa fa-eye" cssClass="btn-sm btn-default" 
         :name="column" @click="toggleColumn(column)"
       />
-      <table class="table table-bordered table-striped" v-if="gridData.length>0">
+      <table class="table table-bordered table-striped" v-if="grid.length>0">
           <GridHeader :gridData="grid" @sort="sortBy" :gridConfig="gridConfig"
-           @hideColumn="toggleColumn"/>
+           @hideColumn="toggleColumn" />
           <tbody>
               <GridRows v-for="(data, index) in grid" :key="index"
-               :rowData="data" 
-               :gridConfig="gridConfig" 
+               :rowData="data" :gridConfig="gridConfig" 
                @click="handleClick($event, data)"
                />
           </tbody>
       </table>
-      <Alert title="" :showAlert="grid.length===0" align="center"
+      <Alert title="" :showAlert="alert.show" align="center"
        cssClass="warning">
-          <h4>Item não localizado!</h4>
+          <h4>{{alert.message}}</h4>
       </Alert>
   </div>
 </template>
@@ -77,36 +76,34 @@
                 header:[],
                 query:null,
                 originalGrid:[],
+                alert:{show:false, message:''},
             }
-        },
-        created(){
-            const grid = this.gridData.slice();
-            if(this.hasActionButtons && this.actions.length === 0){
-                const defaultActions = [
-                    {name:'Editar', icon:'fa fa-edit',
-                        event:function(){console.log('EDIT ITEM')},},
-                    {name:'Detalhar', icon:'fa fa-th-list',
-                        event:function(){console.log('View Details')},},
-                    {name:'Apagar', icon:'fa fa-trash',
-                        event:function(row){console.log('Apagar'+row)},
-                    },
-                ]
-                grid.forEach((item)=>item['Ações'] = defaultActions)
-            }
-            else if(this.actions.length>0){
-                grid.forEach((item)=>
-                    item['Ações'] = this.actions
-                )
-            }
-            this.grid = grid;
-            this.originalGrid = grid.concat()
-            this.header = Object.keys(this.grid[0]);
         },
         watch:{
             gridData(){
                 let grid = this.gridData.slice();
-                this.grid = grid
-            },
+                if(this.hasActionButtons && this.actions.length === 0){
+                    const defaultActions = [
+                        {name:'Editar', icon:'fa fa-edit',
+                            event:function(){},},
+                        {name:'Detalhar', icon:'fa fa-th-list',
+                            event:function(){},},
+                        {name:'Apagar', icon:'fa fa-trash',
+                            event:function(){},
+                        },
+                    ]
+                    grid.forEach((item)=>item['Ações'] = defaultActions)
+                }
+                else if(this.actions.length>0){
+                    grid.forEach((item)=>
+                        item['Ações'] = this.actions
+                    )
+                }
+                this.grid = grid;
+                this.originalGrid = grid.concat()
+                this.header = grid.length>0?Object.keys(grid[0]):[];
+                this.grid = grid.concat()
+            }
         },
         methods:{
             toggleColumn(item){
@@ -196,6 +193,8 @@
                 }
                 this.grid = newGrid.filter((item, index,arr)=>
                     arr.indexOf(item)===index).concat()
+                this.alert.show = this.grid.length === 0;
+                this.alert.message = 'Item não encontrado!';
             },
             handleClick(event, data){
                 this.$emit('click', event, data)
