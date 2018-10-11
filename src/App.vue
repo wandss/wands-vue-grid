@@ -34,7 +34,6 @@
                     {id:'movie', colName:'Filmes',},
                     {id:'genre', colName:'Gênero', hidden:false},
                 ],
-                gridConfig:[],
                 actions:[
                     {title:'Visualizar', icon:'fa fa-eye', 
                         event:function view(value){alert(value)}},
