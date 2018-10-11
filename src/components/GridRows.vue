@@ -3,7 +3,7 @@
         <td v-for="(item, key) in row " :key="key"
             @click="$emit('rowClick')">
             <div v-if="key === 'Ações' ">
-                <grid-icon v-for="btn in item"
+                <grid-icon v-for="btn in item" id="icon"
                  :key="btn.name"
                  :icon="btn.icon" :title="btn.title"                                   
                   @click="$emit('click', btn.event)"
@@ -45,6 +45,9 @@
                     newItem = Number(newItem).toLocaleString()
                 }
                 return newItem;
+            },
+            toggleRowColor(rowColor){
+                this.rowColor = rowColor;
             }
         },
         computed:{
@@ -56,10 +59,10 @@
                 if(rowColorIndex !== -1){
                     //Removes rowColor property
                     cols.splice(rowColorIndex, 1)
-                    this.rowColor = this.rowData.rowColor
+                    this.toggleRowColor(this.rowData.rowColor)
                 }
                 else{
-                    this.rowColor = '';
+                    this.toggleRowColor(this.rowData.rowColor)
                 }
 
                 this.gridConfig.forEach(item=>{
@@ -79,7 +82,7 @@
     }
 </script>
 <style scoped>
-tr{
+#icon{
     cursor:pointer;
 }
 </style>

@@ -81,6 +81,14 @@
         },
         watch:{
             gridData(){
+                this.updateGrid();
+            }
+        },
+        created(){
+            this.updateGrid();
+        },
+        methods:{
+            updateGrid(){
                 let grid = this.gridData.slice();
                 if(this.hasActionButtons && this.actions.length === 0){
                     const defaultActions = [
@@ -103,9 +111,7 @@
                 this.originalGrid = grid.concat()
                 this.header = grid.length>0?Object.keys(grid[0]):[];
                 this.grid = grid.concat()
-            }
-        },
-        methods:{
+            },
             toggleColumn(item){
                 let colName = item;
                 let index =  this.hiddenColumns.indexOf(colName);

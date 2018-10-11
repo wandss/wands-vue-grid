@@ -12,7 +12,6 @@
 </template>
 <script>
     import Grid from './components/Grid';
-    import axios from 'axios';
     export default{
         name:'APP',
         components:{Grid, },
