@@ -1,5 +1,5 @@
-<!--When a property inside gridData has name equals 'rowColor'
-    it's value will be used as backgroudcolor for that particular row.
+<!--When theres a property named 'rowColor', inside gridData 
+    it's value will be used as backgroundcolor for that particular row.
 -->
 <template>
   <div style="overflow:auto">
@@ -16,7 +16,7 @@
       />
       <table class="table table-bordered table-striped" v-if="grid.length>0">
           <GridHeader :gridData="grid" @sort="sortBy" :gridConfig="gridConfig"
-           @hideColumn="toggleColumn" />
+           @hideColumn="toggleColumn" :sortedColumn="activeColumn" />
           <tbody>
               <GridRows v-for="(data, index) in grid" :key="index"
                :rowData="data" :gridConfig="gridConfig" 
@@ -70,11 +70,12 @@
         data(){
             return {
                 sortedBy:null,
+                activeColumn:'',
                 hiddenColumns:[],
                 storedData:[],
                 grid:[],
                 header:[],
-                query:null,
+                query:'',
                 originalGrid:[],
                 alert:{show:false, message:''},
             }
@@ -149,6 +150,7 @@
             },
             sortBy(col){
                 let colName = col;
+                this.activeColumn = col;
                 this.gridConfig.forEach(item=>{
                     if(col === item.colName){
                         colName = item.id

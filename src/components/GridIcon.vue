@@ -24,7 +24,7 @@
 button{
     border:none;
     background:transparent;
-    font-size:2rem;
+    font-size:1.8rem;
     outline:none;
     color:#3c8dbc;
 }

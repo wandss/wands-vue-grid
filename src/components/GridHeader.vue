@@ -3,7 +3,10 @@
         <tr>
             <th v-for="(item, index) in header" :key="index"
              @click.prevent.self="$emit('sort', header[index])">
-                <i class="fa fa-sort"></i>
+                <i :class="['fa fa-sort', item ===
+                 sortedColumn?'activeColumn':'regularColumn']" 
+                 v-if="item!=='Ações'"
+                ></i>
                 {{item}}
                 <div id="hideColumn" @click="$emit('hideColumn', header[index])">
                     <i class='fa fa-eye-slash'></i>
@@ -23,11 +26,18 @@
             gridConfig:{
                 type:Array,
                 default:()=>[],
+            },
+            sortedColumn:{
+                type:String,
+                default:'',
             }
         },
         data(){
             return{
                 originalHeader:null,
+                activeColumn:{
+                    'opacity':0.1,
+                }
             }
         },
         computed:{
@@ -82,6 +92,12 @@
   }
 </script>
 <style scoped>
+.activeColumn{
+    opacity:1;
+}
+.regularColumn{
+    opacity:0.4;
+}
 tr{
     cursor:pointer;
 }
@@ -92,8 +108,13 @@ th{
 #hideColumn{
     float:right;
     font-size:1.5rem;
+    opacity:.4;
 }
 #hideColumn:hover{
-    opacity:.8;
+    opacity:1;
 }
+#sortIcon{
+    opacity:0.4;
+}
+
 </style>
