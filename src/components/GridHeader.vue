@@ -94,6 +94,7 @@
 <style scoped>
 .activeColumn{
     opacity:1;
+    transition:all .2s ease-in;
 }
 .regularColumn{
     opacity:0.4;
