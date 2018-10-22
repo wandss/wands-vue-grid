@@ -43,17 +43,19 @@
         },
         created(){
             this.actions.push({title:'Selecionar', 
-                icon:'fa fa-check', event:this.selectRow})
+                icon:'fa fa-square-o', event:this.selectRow})
         },
         methods:{
             handleClick(event, data){
                 event(data)
             },
             selectRow(data){
+                data.Ações[2].icon = 'fa fa-check-square'
                 if(Object.keys(data).indexOf('rowColor')===-1){
                     this.$set(data, 'rowColor', '#44ed594d')
                 }
                 else{
+                    data.Ações[2].icon = 'fa fa-square-o'
                     this.$delete(data, 'rowColor')
                 }
             }

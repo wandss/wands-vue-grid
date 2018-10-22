@@ -104,9 +104,16 @@
                     grid.forEach((item)=>item['Ações'] = defaultActions)
                 }
                 else if(this.actions.length>0){
-                    grid.forEach((item)=>
-                        item['Ações'] = this.actions
-                    )
+                    grid.forEach((item)=>{
+                        if(item['Ações'] === undefined){
+                            item['Ações'] = this.actions.map(action =>{
+                                return {title:action.title,
+                                        icon:action.icon,
+                                        event:action.event
+                                }
+                            });
+                        }
+                    })
                 }
                 this.grid = grid;
                 this.originalGrid = grid.concat()
