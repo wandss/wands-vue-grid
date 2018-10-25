@@ -5,11 +5,17 @@
             <div v-if="key === 'Ações' ">
                 <grid-icon v-for="btn in item" id="icon"
                  :key="btn.name"
-                 :icon="btn.icon" :title="btn.title"                                   
+                 :icon="btn.icon" :title="btn.title"
                   @click="$emit('click', btn.event)"
                 />
             </div>
-            <div v-else v-html="formatItem(item)">
+            <input v-else-if="canEdit"
+             @blur="canEdit=false"
+             ref="input"
+             type="text" :value="item"/>
+
+            <div v-else v-html="formatItem(item)" :style="regularContent"
+                @click="editItem">
             </div>
         </td>
     </tr>
@@ -29,15 +35,22 @@
                 type:Array,
                 default:()=>[],
             },
+            inlineEdition:{
+                type:Boolean,
+                default:true,
+            }
         },
         data(){
             return{
                 rowColor:'',
+                canEdit:false,
+                inputStyle:'',
+                regularContent:{'cursor':'default'},
             }
         },
         methods:{
             formatItem(item){
-                var newItem = item;
+                let newItem = item;
                 if(Array.isArray(item)){
                     newItem = newItem.join(', ');
                 }
@@ -48,6 +61,11 @@
             },
             toggleRowColor(rowColor){
                 this.rowColor = rowColor;
+            },
+            editItem(){
+                if(this.inlineEdition){
+                    this.canEdit = true
+                }
             }
         },
         computed:{
@@ -84,5 +102,12 @@
 <style scoped>
 #icon{
     cursor:pointer;
+}
+input{
+    background:transparent;
+    border:none;
+    border-bottom:1px solid black;
+    width:100%;
+    outline:none;
 }
 </style>
