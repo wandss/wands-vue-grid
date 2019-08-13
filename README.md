@@ -46,6 +46,17 @@ Grid header's will be created by introspecting the array and getting the keys fr
 | -- | ---- | ---------- |
 | 1  | wandss | wands-vuw-grid|
 
+- gridConfig:
+Property to customize the grid's renderization, consisting of an Array with objects, like:
+```
+const customizeMe = [{id:'id', hidden:true}, {id:'Repository', colName:'Git Hub Repo'}, 
+                     {id: 'user', style:{'color': red}]
+```
+where:
+1 - **id**: must match key names inside _gridData_
+2 - **hidden**: makes this column to not be rendered
+3 - **colName**: the name to be displayed
+4 - **style**: an object to style all the cells that matches the given id.
 
 
 
