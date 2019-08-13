@@ -54,13 +54,15 @@ const customizeMe = [{id:'id', hidden:true}, {id:'Repository', colName:'Git Hub 
 ```
 Where:
 
-1 - **id**: must match key names inside _gridData_
+1 - **id**: must match key names inside _gridData_'s array.
 
-2 - **hidden**: makes this column to not be rendered
+2 - **hidden**: will not render any data the matches the passed id.
 
-3 - **colName**: the name to be displayed
+3 - **colName**: the name to be rendered in Header.
 
-4 - **style**: an object to style all the cells that matches the given id
+4 - **style**: an object to style all the cells that matches the given id, result in a column styled at the same way
+
+5 - NOT IMPLEMENTED YET: rowStyle
 
 
 
