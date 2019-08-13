@@ -1,21 +1,45 @@
 # wands-vue-grid
 
-## Project setup
+## Description
+A (yet) simple Grid compoment made with VueJS
+
+## Installing
+1 - Clone this repository
+2 - CD into cloned Directory
+3 - Run:
 ```
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
+/*then*/
 npm run serve
 ```
 
-### Compiles and minifies for production
+## Usage
+### Single File Component
+- Import the component
 ```
-npm run build
+import Grid from @/components/Grid
+```
+- Register it
+```
+...
+components: {Grid}
+...
+```
+- Inside _template_ tags (HTML block)
+```
+<grid />
 ```
 
-### Lints and fixes files
+### Properties
+- gridData:
+An Array with objects that will be displayed in the grid.
 ```
-npm run lint
+const myAwesomeGriData=[{id:1, user:'wandss', repository:'wands-vuw-grid'}]
 ```
+Then pass the property to the component:
+```
+<grid :gridData="myAwesomeGridData" />
+```
+The Header will be created by the key names, resulting in something like:
+
+
