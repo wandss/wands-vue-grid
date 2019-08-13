@@ -34,12 +34,18 @@ components: {Grid}
 - gridData:
 An Array with objects that will be displayed in the grid.
 ```
-const myAwesomeGriData=[{id:1, user:'wandss', repository:'wands-vuw-grid'}]
+const myAwesomeGriData=[{id:1, user:'wandss', repository:'wands-vue-grid'}]
 ```
 Then pass the property to the component:
 ```
 <grid :gridData="myAwesomeGridData" />
 ```
-The Header will be created by the key names, resulting in something like:
+Grid header's will be created by introspecting the array and getting the keys from the object, resulting in something like:
+
+| Id | User | Repository |
+| -- | ---- | ---------- |
+| 1  | wandss | wands-vuw-grid|
+
+
 
 
