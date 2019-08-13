@@ -30,15 +30,17 @@ export default{
       gridConfig:[
         {id:'id', colName:'ID', hidden:true},
         {id:'movie', colName:'Filmes',},
-        {id:'genre', colName:'Gênero', hidden:false},
+        {id:'genre', colName:'Gênero', hidden:false,
+          style:{'background-color': '#049', color:'white'},
+        },
       ],
     }
   },
 }
 </script>
 <style>
-    @import './assets/css/bootstrap.min.css';
-    @import './assets/css/font-awesome.min.css';
+  @import './assets/css/bootstrap.min.css';
+  @import './assets/css/font-awesome.min.css';
 </style>
 
 <!--TODO:
