@@ -44,7 +44,7 @@ Grid header's will be created by introspecting the array and getting the keys fr
 
 | Id | User | Repository |
 | -- | ---- | ---------- |
-| 1  | wandss | wands-vuw-grid|
+| 1  | wandss | wands-vue-grid|
 
 - gridConfig:
 Property to customize the grid's renderization, consisting of an Array with objects, like:
